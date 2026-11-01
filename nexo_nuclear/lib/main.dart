@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'data/categorias.dart';
 import 'models/perfil.dart';
 import 'screens/conquistas_page.dart';
-import 'screens/detalhe_categoria_page.dart';
 import 'screens/home_page.dart';
 import 'screens/mapa_page.dart';
 import 'screens/perfil_page.dart';
@@ -42,11 +41,9 @@ class _AppShellState extends State<AppShell> {
 
   void _irPara(int i) => setState(() => _aba = i);
 
-  Future<void> _abrirCategoria(Categoria c) async {
+  void _marcarVisitada(String categoriaId) {
     final estavaCompleto = _visitadas.length == categorias.length;
-    setState(() => _visitadas.add(c.id));
-    await Navigator.push(context, MaterialPageRoute(builder: (_) => DetalheCategoriaPage(categoria: c)));
-    if (!mounted) return;
+    setState(() => _visitadas.add(categoriaId));
     if (!estavaCompleto && _visitadas.length == categorias.length) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Medalha Explorador desbloqueada! 🧭')));
     }
@@ -63,7 +60,7 @@ class _AppShellState extends State<AppShell> {
   Widget build(BuildContext context) => Scaffold(
         body: IndexedStack(index: _aba, children: [
           HomePage(progresso: _progresso, onExplorar: () => _irPara(1)),
-          MapaPage(visitadas: _visitadas, onAbrir: _abrirCategoria),
+          MapaPage(visitadas: _visitadas, onVisitar: _marcarVisitada),
           QuizPage(onFinalizar: _finalizarQuiz),
           PerfilPage(perfil: _perfil, onSalvar: _salvarPerfil, onIrConquistas: () => _irPara(4)),
           ConquistasPage(

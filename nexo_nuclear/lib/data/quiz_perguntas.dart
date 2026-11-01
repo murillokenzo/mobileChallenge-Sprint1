@@ -1,10 +1,9 @@
-/// Acertos mínimos no quiz para ganhar a medalha "Cientista".
 const int notaParaMedalha = 4;
 
 class Pergunta {
   final String enunciado;
   final List<String> opcoes;
-  final int correta; // índice da opção certa (começa em 0)
+  final int correta; 
   final String explicacao;
   const Pergunta({required this.enunciado, required this.opcoes, required this.correta, required this.explicacao});
 }
